@@ -1,0 +1,36 @@
+{
+  "name": "mqtt.js-over-websockets",
+  "version": "0.0.0",
+  "description": "Use MQTT from the Browser -- Browserify compatible!",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcollina/mqtt.js-over-websocket.git"
+  },
+  "bugs": {
+    "url": "http://github.com/mcollina/mqtt.js-over-websocket/issues"
+  },
+  "scripts": {
+    "test": "mocha test.js --bail"
+  },
+  "keywords": [
+    "mqtt",
+    "websocket",
+    "publish",
+    "subscribe",
+    "publish",
+    "subscribe",
+    "pub/sub"
+  ],
+  "author": "Matteo Collina <hello@matteocollina.com>",
+  "license": "MIT",
+  "dependencies": {
+    "mqtt": "git://github.com/adamvr/MQTT.js.git#browserify",
+    "websocket-stream": "git://github.com/mcollina/websocket-stream.git#node-and-close",
+    "ws": "~0.4.30"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.1",
+    "should": "~1.2.2"
+  }
+}
