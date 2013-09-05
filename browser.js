@@ -23,7 +23,9 @@ module.exports.createClient = function(port, host, opts) {
 
   var build = function() {
     var url = 'ws://' + host + ':' + port;
-    return websocket(url);
+    var stream = websocket(url, { type: Uint8Array });
+
+    return stream;
   };
 
   return new mqtt.MqttClient(build, opts);

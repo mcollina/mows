@@ -8,13 +8,29 @@ var mqttOverWs = require('./')
   , testServer = require("./test-server")
   , server = testServer.start();
 
-/**
- * Modules to be tested
- */
-var createClient = mqttOverWs.createClient;
-
 describe('MqttClient', function() {
-  abstractClientTests(server, createClient, testServer.port);
+  var client;
+
+  beforeEach(function() {
+    client = mqttOverWs.createClient(testServer.port);
+  });
+
+  afterEach(function(done) {
+    client.on("close", done);
+    client.end();
+  });
+
+  it("should connect", function(done) {
+    client.on("connect", function() {
+      done();
+    });
+  });
+
+  it("should publish and subscribe", function(done) {
+    client.subscribe("hello", function() {
+      done();
+    }).publish("hello", "world");
+  });
 });
 
 describe('mqttOverWs', function() {

@@ -27,10 +27,29 @@
   "dependencies": {
     "mqtt": "git://github.com/adamvr/MQTT.js.git#browserify",
     "websocket-stream": "git://github.com/mcollina/websocket-stream.git#node-and-close",
-    "ws": "~0.4.30"
+    "ws": "~0.4.30",
+    "uint8": "~1.0.0",
+    "buffer-browserify": "~0.2.2"
   },
   "devDependencies": {
     "mocha": "~1.12.1",
     "should": "~1.2.2"
+  },
+  "browser": {
+    "./test-server.js": "./fake-server.js"
+  },
+  "testling": {
+    "files": "test.js",
+    "server": "node test-server.js",
+    "harness": "mocha",
+    "browsers": [
+      "ie/6..latest",
+      "chrome/20..latest",
+      "firefox/10..latest",
+      "safari/latest",
+      "opera/11.0..latest",
+      "iphone/6",
+      "ipad/6"
+    ]
   }
 }

@@ -66,6 +66,8 @@ module.exports.start = function(done) {
   return server;
 };
 
+module.exports.createClient = mqtt.createClient;
+
 if (!module.parent) {
   module.exports.start(function(err) {
     if (err) {
