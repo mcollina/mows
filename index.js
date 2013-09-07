@@ -10,9 +10,15 @@ module.exports.attachServer = function(server, handler) {
   var wss = new WebSocketServer({server: server})
 
   wss.on('connection', function(ws) {
-    var connection = websocket(ws).pipe(new module.exports.MqttConnection());
+    var stream = websocket(ws);
+    var connection = stream.pipe(new module.exports.MqttConnection());
+
+    stream.on('error', connection.emit.bind(connection, 'error'));
+    stream.on('close', connection.emit.bind(connection, 'close'));
+
     if (handler)
       handler(connection);
+
     server.emit("client", connection);
   });
 
