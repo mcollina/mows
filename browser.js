@@ -43,17 +43,8 @@ module.exports.createConnection = function(port, host, callback) {
     , ws
     , conn;
 
-  if ('object' === typeof port) {
-    opts = port;
-    url = 'ws://localhost';
-  } else if ('string' === typeof port) {
+  if ('string' === typeof port) {
     url = port;
-  }
-  
-  if ('object' === typeof host) {
-    opts = host;
-  } else if ('object' !== typeof opts) {
-    opts = {};
   }
 
   if (!host) {
