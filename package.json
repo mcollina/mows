@@ -26,10 +26,8 @@
   "license": "MIT",
   "dependencies": {
     "mqtt": "git://github.com/adamvr/MQTT.js.git#browserify",
-    "websocket-stream": "git://github.com/mcollina/websocket-stream.git#node-and-close",
-    "ws": "~0.4.30",
-    "uint8": "~1.0.0",
-    "buffer-browserify": "~0.2.2"
+    "websocket-stream": "~0.3.2",
+    "ws": "~0.4.30"
   },
   "devDependencies": {
     "mocha": "~1.12.1",
