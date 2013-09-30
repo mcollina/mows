@@ -1,14 +1,14 @@
 {
-  "name": "mqtt.js-over-websockets",
+  "name": "mows",
   "version": "0.0.0",
-  "description": "Use MQTT from the Browser -- Browserify compatible!",
+  "description": "Use MQTT from the Browser, based on MQTT.js and websocket-stream",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mcollina/mqtt.js-over-websocket.git"
+    "url": "https://github.com/mcollina/mows.git"
   },
   "bugs": {
-    "url": "http://github.com/mcollina/mqtt.js-over-websocket/issues"
+    "url": "http://github.com/mcollina/mows/issues"
   },
   "scripts": {
     "test": "mocha test.js --bail"
@@ -20,7 +20,8 @@
     "subscribe",
     "publish",
     "subscribe",
-    "pub/sub"
+    "pub/sub",
+    "streams"
   ],
   "author": "Matteo Collina <hello@matteocollina.com>",
   "license": "MIT",
