@@ -25,12 +25,12 @@
   "author": "Matteo Collina <hello@matteocollina.com>",
   "license": "MIT",
   "dependencies": {
-    "mqtt": "git://github.com/adamvr/MQTT.js.git#browserify",
+    "mqtt": "~0.3.3",
     "websocket-stream": "~0.3.2",
     "ws": "~0.4.30"
   },
   "devDependencies": {
-    "mocha": "~1.12.1",
+    "mocha": "~1.13.0",
     "should": "~1.2.2"
   },
   "browser": {
