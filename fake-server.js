@@ -3,7 +3,7 @@ var server;
 var mqtt = require("./");
 var EventEmitter = require("events").EventEmitter;
 
-module.exports.port = 9351;
+module.exports.port = parseInt(window.location.port);
 
 module.exports.start = function(callback) {
   if (callback) {

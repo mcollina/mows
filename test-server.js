@@ -1,10 +1,9 @@
 
-var fake = require("./fake-server");
 var websocket = require('websocket-stream');
 var mqtt = require("./");
 var http = require("http");
 
-var port = module.exports.port = fake.port;
+var port = module.exports.port = process.env.PORT || 9351;
 
 module.exports.start = function(done) {
 
