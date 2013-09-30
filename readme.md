@@ -63,9 +63,25 @@ MQTT-enhaced websocket server:
 ```js
 var mows = require('mows');
 
-mows.createServer(function(client) {
+var server = mows.createServer(function(client) {
   // just as MQTT.js
 });
+
+server.listen(3000);
+```
+
+or it can be just used to attach it to an existent http server:
+```js
+
+var http = require('http')
+  , mows = require('mows')
+  , server = http.createServer();
+  
+mows.attachServer(server, function(client) {
+  // just as MQTT.js
+});
+
+server.listen(3000);
 ```
 
 ## LICENSE - "MIT License"
