@@ -1,6 +1,6 @@
-# Mows - MQTT.js overi WebSockets
+# Mows - MQTT.js over WebSockets
 
-    npm install mows
+    npm install mows --save
 
 Tunnel [MQTT](http://mqtt.org) through HTML5
 [websockets](https://developer.mozilla.org/en-US/docs/WebSockets) using
