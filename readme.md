@@ -35,7 +35,7 @@ See [MQTT.js](http://npm.im/mqtt) for the full API.
 npm install -g browserify // install browserify
 cd node_modules/mows
 npm install . // install dev dependencies
-browserify index.js -s mows > mows.js // require mows.js in your client-side app
+browserify browser.js -s mows > mows.js // require mows.js in your client-side app
 ```
 
 ## On Node
