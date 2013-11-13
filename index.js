@@ -34,7 +34,6 @@ module.exports.createServer = function(handler) {
 };
 
 module.exports.createSecureServer = function(httpsOpts, handler) {
-    console.log('HTTPS opts', httpsOpts)
     var server = https.createServer(httpsOpts);
     module.exports.attachServer(server, handler);
     return server;
