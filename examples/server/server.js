@@ -51,8 +51,8 @@ var clientHandler = function(client){
 
 var secureOpts =
 {
-    key:  fs.readFileSync('../cert/24485013-my.webserver.com.key'),
-    cert: fs.readFileSync('../cert/24485013-my.webserver.com.cert')
+    key:  fs.readFileSync('../cert/94456535-localhost.key'),
+    cert: fs.readFileSync('../cert/94456535-localhost.cert')
 }
 
 // Create an unsecure MQTT websocket server

@@ -1,11 +1,10 @@
 !function(e){"object"==typeof exports?module.exports=e():"function"==typeof define&&define.amd?define(e):"undefined"!=typeof window?window.mows=e():"undefined"!=typeof global?global.mows=e():"undefined"!=typeof self&&(self.mows=e())}(function(){var define,module,exports;
 return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var websocket = require('websocket-stream')
+var websocket = require('websocket-stream');
 var mqtt = require("mqtt");
 
 module.exports.createClient = function(port, host, opts) {
   var url = null;
-  var proto = null;
 
   if ('object' === typeof port) {
     opts = port;
@@ -67,7 +66,14 @@ module.exports.createConnection = function(port, host, callback) {
   }
 
   if (!url && host && port) {
-    url = 'ws://' + host + ':' + port;
+
+     var protocol = '';
+     if(host.slice(0,6) != 'wss://' && host.slice(0,5) != 'ws://')
+     {
+        protocol = 'ws://'
+     }
+
+     url = protocol + host + ':' + port;
   }
 
   ws = websocket(url, { type: Uint8Array });

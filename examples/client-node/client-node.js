@@ -2,10 +2,6 @@
  * This script demonstrates a MOWS NodeJS client connecting to a server over HTTP and HTTPS.
  *
  * It relies on the server script located at 'examples/server/server.js'.
- * 
- * Note the server makes use of a self-signed certificate for domain 'my.webserver.com'.
- * To test this script locally, you will need to make this domain accessible by editing
- * your Hosts file. Ie - adding '127.0.0.1 mywebserver.com'.
  */
 
 var mows = require('../../index');
@@ -35,7 +31,7 @@ var applyEventHandlers = function(client, msg)
 /**
  * Example #1 - connect to a unsecure MOWS server
  */
-var unsecureClient = mows.createClient(665, 'ws://my.webserver.com');
+var unsecureClient = mows.createClient(665, 'ws://localhost');
 applyEventHandlers(unsecureClient, 'Hello, I am a unsecure client');
 
 
@@ -50,9 +46,9 @@ var secureClientOpts =
 {
     protocol:
     {
-        ca: fs.readFileSync('../cert/24485013-my.webserver.com.cert')
+        ca: fs.readFileSync('../cert/94456535-localhost.cert')
     }
 };
 
-var secureClient = mows.createClient(666, 'wss://my.webserver.com', secureClientOpts);
+var secureClient = mows.createClient(666, 'wss://localhost', secureClientOpts);
 applyEventHandlers(secureClient, 'Hello, I am a secure client');

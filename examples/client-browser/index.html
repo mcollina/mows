@@ -6,7 +6,17 @@
     <script type="text/javascript" src="client-browser.js"></script>
 </head>
 <body>
-Demonstration of a MQTT client connecting via Websockets in the browser.<br/>
-Open the console to see the output.
+    <h1>Demonstration of a MQTT client connecting via Websockets in the browser.</h1>
+    <p>This script demonstrates a MOWS browser client connecting to a server over HTTP and HTTPS.
+    It relies on the server script located at 'examples/server/server.js'.</p>
+    <p>The server uses a self-signed certifcate for localhost. In order for this client to work:</p>
+    <ol>
+        <li>Start the server (ie node examples/server/server.js)</li>
+        <li>In your browser, visit <a href="https://localhost:666">https://localhost:666</a>.</li>
+        <li>Your browser will display a security warning. Accept / Approve or add a security exception depending on your browser.</li>
+        <li>Reload this HTML file</li>
+    </ol>
+    <hr/>
+    <div id="log"></div>
 </body>
 </html>
