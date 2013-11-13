@@ -1,20 +1,22 @@
 /**
  * This script demonstrates a MOWS browser client connecting to a server over HTTP and HTTPS.
  *
- * It is designed to work with 'secure-test/secure-server.js'. Note the server makes use of self-signed
- * certificates under the domain 'my.webserver.com'. To test this script locally, you will need to make this
- * domain accessible by editing your Hosts file.
+ * It relies on the server script located at 'examples/server/server.js'.
+ * 
+ * Note the server makes use of a self-signed certificate for domain 'my.webserver.com'.
+ * To test this script locally, you will need to make this domain accessible by editing
+ * your Hosts file. Ie - adding '127.0.0.1 mywebserver.com'.
  */
 
 /**
  * Simple method to assist in adding events to a client
  */
-var applyEventHandlers = function(client)
+var applyEventHandlers = function(client, msg)
 {
     client.on('connect', function(){
         console.log('Client Connected as ', client.options.clientId);
         client.subscribe('/hiworld');
-        client.publish('/hiworld', 'Hello World');
+        client.publish('/hiworld', msg);
     });
 
     client.on('error', function(e){
@@ -30,11 +32,11 @@ var applyEventHandlers = function(client)
 /**
  * Example #1 - connect to an unsecure MOWS server
  */
-var unsecureClient1 = mows.createClient(665, 'ws://my.webserver.com');
-applyEventHandlers(unsecureClient1);
+var unsecureClient = mows.createClient(665, 'ws://my.webserver.com');
+applyEventHandlers(unsecureClient, 'Hello, I am a unsecure client');
 
 /**
  * Example #2 - connect to a secure MOWS server
  */
-var unsecureClient2 = mows.createClient(666, 'wss://my.webserver.com');
-applyEventHandlers(unsecureClient2);
+var secureClient = mows.createClient(666, 'wss://my.webserver.com');
+applyEventHandlers(secureClient, 'Hello, I am a secure client');
