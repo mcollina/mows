@@ -5,27 +5,26 @@
  */
 
 var mows = require('../../index');
-var fs   = require('fs');
+var fs = require('fs');
 
 /**
  * Simple method to assist in adding events to a client
  */
-var applyEventHandlers = function(client, msg)
-{
-    client.on('connect', function(){
-        console.log('Client Connected as ', client.options.clientId);
-        client.subscribe('/hiworld');
-        client.publish('/hiworld', msg);
-    });
+var applyEventHandlers = function (client, msg) {
+  client.on('connect', function () {
+    console.log('Client Connected as ', client.options.clientId);
+    client.subscribe('/hiworld');
+    client.publish('/hiworld', msg);
+  });
 
-    client.on('error', function(e){
-        console.log('Client Error:', e);
-    });
+  client.on('error', function (e) {
+    console.log('Client Error:', e);
+  });
 
-    client.on('message', function(topic, message){
-        console.log('Client received message:', topic, message);
-        client.end();
-    });
+  client.on('message', function (topic, message) {
+    console.log('Client received message:', topic, message);
+    client.end();
+  });
 };
 
 /**
@@ -42,12 +41,10 @@ applyEventHandlers(unsecureClient, 'Hello, I am a unsecure client');
  * configuration paramaters to pass to the HTTPS request.
  * See http://nodejs.org/api/https.html#https_https_request_options_callback
  */
-var secureClientOpts =
-{
-    protocol:
-    {
-        ca: fs.readFileSync('../cert/94456535-localhost.cert')
-    }
+var secureClientOpts = {
+  protocol: {
+    ca: fs.readFileSync('../cert/94456535-localhost.cert')
+  }
 };
 
 var secureClient = mows.createClient(666, 'wss://localhost', secureClientOpts);

@@ -19,27 +19,27 @@
 
 var logActivity = function(message)
 {
-    var logElem = document.getElementById('log');
-    logElem.innerHTML = logElem.innerHTML + '<br/>' + message;
+  var logElem = document.getElementById('log');
+  logElem.innerHTML = logElem.innerHTML + '<br/>' + message;
 }
 
 var applyEventHandlers = function(client, msg)
 {
-    client.on('connect', function(){
-        logActivity('Client connected as ' + client.options.clientId);
-        client.subscribe('/hiworld');
-        client.publish('/hiworld', msg);
-    });
+  client.on('connect', function(){
+    logActivity('Client connected as ' + client.options.clientId);
+    client.subscribe('/hiworld');
+    client.publish('/hiworld', msg);
+  });
 
-    client.on('error', function(e){
-        logActivity('Client Error ' + e);
-        console.log('Client Error:', e);
-    });
+  client.on('error', function(e){
+    logActivity('Client Error ' + e);
+    console.log('Client Error:', e);
+  });
 
-    client.on('message', function(topic, message){
-        logActivity('Client received message: ' + message);
-        client.end();
-    });
+  client.on('message', function(topic, message){
+    logActivity('Client received message: ' + message);
+    client.end();
+  });
 };
 
 /**
