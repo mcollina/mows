@@ -25,7 +25,7 @@ module.exports.createClient = function(port, host, opts) {
     url = host + ':' + port;
   }
 
-  if(url.slice(0,5) != "ws://" && url.slice(0,6) != "wss://") {
+  if(url.slice(0,5).toLowerCase() != "ws://" && url.slice(0,6).toLowerCase() != "wss://") {
       url = "ws://" + url;
   }
 
@@ -64,7 +64,14 @@ module.exports.createConnection = function(port, host, callback) {
   }
 
   if (!url && host && port) {
-    url = 'ws://' + host + ':' + port;
+
+     var protocol = '';
+     if(host.slice(0,6).toLowerCase() != 'wss://' && host.slice(0,5).toLowerCase() != 'ws://')
+     {
+        protocol = 'ws://'
+     }
+
+     url = protocol + host + ':' + port;
   }
 
   ws = websocket(url, { type: Uint8Array });
