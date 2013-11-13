@@ -1,4 +1,4 @@
-var websocket = require('websocket-stream')
+var websocket = require('websocket-stream');
 var mqtt = require("mqtt");
 
 module.exports.createClient = function(port, host, opts) {
@@ -6,7 +6,7 @@ module.exports.createClient = function(port, host, opts) {
 
   if ('object' === typeof port) {
     opts = port;
-    url = 'ws://localhost';
+    url = 'localhost';
   } else if ('string' === typeof port) {
     url = port;
   }
@@ -22,15 +22,27 @@ module.exports.createClient = function(port, host, opts) {
   }
 
   if (!url && host && port) {
-    url = 'ws://' + host + ':' + port;
+    url = host + ':' + port;
+  }
+
+  if(url.slice(0,5) != "ws://" && url.slice(0,6) != "wss://") {
+      url = "ws://" + url;
   }
 
   if (opts && opts.clean === false && !opts.clientId) {
     throw new Error("Missing clientId for unclean clients");
   }
 
-  var build = function() {
-    var stream = websocket(url, { type: Uint8Array });
+  var build = function(){
+
+    var websocketOpts = { type: Uint8Array };
+
+    if(opts.protocol)
+    {
+        websocketOpts.protocol = opts.protocol;
+    }
+
+    var stream = websocket(url, websocketOpts);
 
     return stream;
   };
