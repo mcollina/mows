@@ -16,8 +16,7 @@ var mqttOverWs = require('./')
 
 var secureClientOpts =
 {
-    protocol:
-    {
+    protocol: {
         ca: testServer.ssl.cert
     }
 };

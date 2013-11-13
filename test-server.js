@@ -109,18 +109,16 @@ module.exports.start = function(done) {
   return server;
 };
 
-module.exports.startSecure = function(done)
-{
-    var secureOpts =
-    {
-        key:  module.exports.ssl.key,
-        cert: module.exports.ssl.cert
-    };
+module.exports.startSecure = function(done) {
+  var secureOpts = {
+    key:  module.exports.ssl.key,
+    cert: module.exports.ssl.cert
+  };
 
-    var server = mqtt.createSecureServer(secureOpts, handleClient);
-    server.listen(securePort, done);
+  var server = mqtt.createSecureServer(secureOpts, handleClient);
+  server.listen(securePort, done);
 
-    return server;
+  return server;
 };
 
 module.exports.createClient = mqtt.createClient;

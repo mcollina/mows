@@ -26,19 +26,18 @@ module.exports.createClient = function(port, host, opts) {
   }
 
   if(url.slice(0,5).toLowerCase() != "ws://" && url.slice(0,6).toLowerCase() != "wss://") {
-      url = "ws://" + url;
+    url = "ws://" + url;
   }
 
   if (opts && opts.clean === false && !opts.clientId) {
     throw new Error("Missing clientId for unclean clients");
   }
 
-  var build = function(){
+  var build = function() {
 
     var websocketOpts = { type: Uint8Array };
 
-    if(opts.protocol)
-    {
+    if(opts.protocol) {
         websocketOpts.protocol = opts.protocol;
     }
 
@@ -65,13 +64,12 @@ module.exports.createConnection = function(port, host, callback) {
 
   if (!url && host && port) {
 
-     var protocol = '';
-     if(host.slice(0,6).toLowerCase() != 'wss://' && host.slice(0,5).toLowerCase() != 'ws://')
-     {
-        protocol = 'ws://'
-     }
+    var protocol = '';
+    if(host.slice(0,6).toLowerCase() != 'wss://' && host.slice(0,5).toLowerCase() != 'ws://') {
+      protocol = 'ws://'
+    }
 
-     url = protocol + host + ':' + port;
+    url = protocol + host + ':' + port;
   }
 
   ws = websocket(url, { type: Uint8Array });
