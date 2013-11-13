@@ -1,4 +1,9 @@
 /**
+ * Environment variables
+ */
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // Ignore self-signed certificate errors
+
+/**
  * Testing dependencies
  */
 
@@ -6,7 +11,16 @@ var mqttOverWs = require('./')
   , mqtt = require('mqtt')
   , abstractClientTests = require("mqtt/test/abstract_client")
   , testServer = require("./test-server")
-  , server = testServer.start();
+  , server = testServer.start()
+  , secureServer = testServer.startSecure()
+
+var secureClientOpts =
+{
+    protocol:
+    {
+        ca: testServer.ssl.cert
+    }
+};
 
 function clientTests(buildClient) {
   var client;
@@ -46,12 +60,26 @@ describe('MqttClient', function() {
     });
   });
 
-  describe("specifying an URL", function() {
+  describe("specifying a URL", function() {
     clientTests(function() {
       return mqttOverWs.createClient('ws://localhost:' + testServer.port);
     });
   });
+
+  describe("specifying a port, secure URL and secure client options", function(){
+    clientTests(function(){
+      return mqttOverWs.createClient(testServer.securePort, 'wss://localhost', secureClientOpts);
+    });
+  });
+
+  describe("specifying a URL and secure client options", function(){
+    clientTests(function(){
+      return mqttOverWs.createClient('wss://localhost:' + testServer.securePort, secureClientOpts);
+    });
+  });
+
 });
+
 
 function connectionTests(buildconn) {
   var conn;
@@ -118,11 +146,24 @@ describe('MqttConnection', function() {
     });
   });
 
-  describe("specifying an URL", function() {
+  describe("specifying a URL", function() {
     connectionTests(function() {
       return mqttOverWs.createConnection('ws://localhost:' + testServer.port);
     });
   });
+
+  describe("specifying a port and secure URL", function() {
+    connectionTests(function() {
+      return mqttOverWs.createConnection(testServer.securePort, 'wss://localhost');
+    });
+  });
+
+  describe("specifying a secure URL", function() {
+    connectionTests(function() {
+      return mqttOverWs.createConnection('wss://localhost:' + testServer.securePort);
+    });
+  });
+
 });
 
 describe('mqttOverWs', function() {
