@@ -157,6 +157,12 @@ describe('MqttConnection', function() {
     });
   });
 
+  describe("specifying a port, secure URL and secure Client options", function() {
+    connectionTests(function() {
+      return mqttOverWs.createConnection(testServer.securePort, 'wss://localhost', secureClientOpts);
+    });
+  });
+
   describe("specifying a secure URL", function() {
     connectionTests(function() {
       return mqttOverWs.createConnection('wss://localhost:' + testServer.securePort);

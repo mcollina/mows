@@ -1,7 +1,8 @@
 var websocket = require('websocket-stream');
 var mqtt = require("mqtt");
 
-module.exports.createClient = function(port, host, opts) {
+var getParams = function(port, host, opts) {
+
   var url = null;
 
   if ('object' === typeof port) {
@@ -10,7 +11,7 @@ module.exports.createClient = function(port, host, opts) {
   } else if ('string' === typeof port) {
     url = port;
   }
-  
+
   if ('object' === typeof host) {
     opts = host;
   } else if ('object' !== typeof opts) {
@@ -29,50 +30,45 @@ module.exports.createClient = function(port, host, opts) {
     url = "ws://" + url;
   }
 
-  if (opts && opts.clean === false && !opts.clientId) {
+  var websocketOpts = {
+    type: Uint8Array
+  };
+
+  if(opts.protocol)
+  {
+    websocketOpts.protocol = opts.protocol;
+  }
+
+  return {
+    url: url,
+    opts: opts,
+    websocketOpts: websocketOpts
+  }
+
+};
+
+module.exports.createClient = function(port, host, opts) {
+
+  var params = getParams(port, host, opts);
+
+  if (params.opts && params.opts.clean === false && !params.opts.clientId) {
     throw new Error("Missing clientId for unclean clients");
   }
 
   var build = function() {
-
-    var websocketOpts = { type: Uint8Array };
-
-    if(opts.protocol) {
-        websocketOpts.protocol = opts.protocol;
-    }
-
-    var stream = websocket(url, websocketOpts);
-
-    return stream;
+    return websocket(params.url, params.websocketOpts);
   };
 
-  return new mqtt.MqttClient(build, opts);
+  return new mqtt.MqttClient(build, params.opts);
 };
 
-module.exports.createConnection = function(port, host, callback) {
-  var url = null
-    , ws
+module.exports.createConnection = function(port, host, opts) {
+  var ws
     , conn;
 
-  if ('string' === typeof port) {
-    url = port;
-  }
+  var params = getParams(port, host, opts);
 
-  if (!host) {
-    host = 'localhost'
-  }
-
-  if (!url && host && port) {
-
-    var protocol = '';
-    if(host.slice(0,6).toLowerCase() != 'wss://' && host.slice(0,5).toLowerCase() != 'ws://') {
-      protocol = 'ws://'
-    }
-
-    url = protocol + host + ':' + port;
-  }
-
-  ws = websocket(url, { type: Uint8Array });
+  ws = websocket(params.url, params.websocketOpts);
   conn = ws.pipe(new mqtt.MqttConnection());
 
   // Echo net errors
