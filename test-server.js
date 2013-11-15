@@ -10,94 +10,93 @@ var securePort = module.exports.securePort = 9352;
 
 var handleClient = function (client) {
 
-    var self = this;
+  var self = this;
 
-    if (!self.clients) self.clients = {};
+  if (!self.clients) self.clients = {};
 
-    client.on('connect', function(packet) {
-        if (packet.clientId === 'invalid') {
-            client.connack({returnCode: 2});
-        } else {
-            client.connack({returnCode: 0});
+  client.on('connect', function(packet) {
+    if (packet.clientId === 'invalid') {
+      client.connack({returnCode: 2});
+    } else {
+      client.connack({returnCode: 0});
+    }
+    self.clients[packet.clientId] = client;
+    client.subscriptions = [];
+  });
+
+  client.on('publish', function (packet) {
+    switch (packet.qos) {
+      case 0:
+        break;
+      case 1:
+        client.puback(packet);
+      break;
+      case 2:
+        client.pubrec(packet);
+      break;
+    }
+
+    for (var k in self.clients) {
+      var c = self.clients[k]
+      , publish = false;
+
+      for (var i = 0; i < c.subscriptions.length; i++) {
+        var s = c.subscriptions[i];
+
+        if (s.test(packet.topic)) {
+          publish = true;
         }
-        self.clients[packet.clientId] = client;
-        client.subscriptions = [];
-    });
+      }
 
-    client.on('publish', function (packet) {
-        switch (packet.qos) {
-            case 0:
-                break;
-            case 1:
-                client.puback(packet);
-                break;
-            case 2:
-                client.pubrec(packet);
-                break;
+      if (publish) {
+        try {
+          c.publish({topic: packet.topic, payload: packet.payload});
+        } catch(error) {
+          delete self.clients[k];
         }
+      }
+    }
+  });
 
-        for (var k in self.clients) {
-            var c = self.clients[k]
-                , publish = false;
+  client.on('pubrel', function(packet) {
+    client.pubcomp(packet);
+  });
 
-            for (var i = 0; i < c.subscriptions.length; i++) {
-                var s = c.subscriptions[i];
+  client.on('pubrec', function(packet) {
+    client.pubrel(packet);
+  });
 
-                if (s.test(packet.topic)) {
-                    publish = true;
-                }
-            }
+  client.on('pubcomp', function(packet) {
+    // Nothing to be done
+  });
 
-            if (publish) {
-                try {
-                    c.publish({topic: packet.topic, payload: packet.payload});
-                } catch(error) {
-                    delete self.clients[k];
-                }
-            }
-        }
-    });
+  client.on('subscribe', function(packet) {
+    var granted = [];
 
-    client.on('pubrel', function(packet) {
-        client.pubcomp(packet);
-    });
+    for (var i = 0; i < packet.subscriptions.length; i++) {
+        var qos = packet.subscriptions[i].qos
+            , topic = packet.subscriptions[i].topic
+            , reg = new RegExp(topic.replace('+', '[^\/]+').replace('#', '.+') + '$');
 
-    client.on('pubrec', function(packet) {
-        client.pubrel(packet);
-    });
+        granted.push(qos);
+        client.subscriptions.push(reg);
+    }
 
-    client.on('pubcomp', function(packet) {
-        // Nothing to be done
-    });
+    client.suback({messageId: packet.messageId, granted: granted});
+  });
 
-    client.on('subscribe', function(packet) {
-        var granted = [];
+  client.on('unsubscribe', function(packet) {
+    client.unsuback(packet);
+  });
 
-        for (var i = 0; i < packet.subscriptions.length; i++) {
-            var qos = packet.subscriptions[i].qos
-                , topic = packet.subscriptions[i].topic
-                , reg = new RegExp(topic.replace('+', '[^\/]+').replace('#', '.+') + '$');
-
-            granted.push(qos);
-            client.subscriptions.push(reg);
-        }
-
-        client.suback({messageId: packet.messageId, granted: granted});
-    });
-
-    client.on('unsubscribe', function(packet) {
-        client.unsuback(packet);
-    });
-
-    client.on('pingreq', function(packet) {
-        client.pingresp();
-    });
+  client.on('pingreq', function(packet) {
+    client.pingresp();
+  });
 };
 
-module.exports.ssl =
-{
-    key:  fs.readFileSync('./examples/cert/94456535-localhost.key'),
-    cert: fs.readFileSync('./examples/cert/94456535-localhost.cert')
+module.exports.ssl = {
+  key:  fs.readFileSync('./examples/cert/94456535-localhost.key'),
+  cert: fs.readFileSync('./examples/cert/94456535-localhost.cert')
 };
 
 module.exports.start = function(done) {

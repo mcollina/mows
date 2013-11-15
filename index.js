@@ -11,7 +11,6 @@ module.exports.attachServer = function(server, handler) {
   var wss = new WebSocketServer({server: server})
 
   wss.on('connection', function(ws) {
-    console.log('Connection established');
     var stream = websocket(ws);
     var connection = stream.pipe(new module.exports.MqttConnection());
 

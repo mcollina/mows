@@ -26,7 +26,7 @@ var getParams = function(port, host, opts) {
     url = host + ':' + port;
   }
 
-  if(url.slice(0,5).toLowerCase() != "ws://" && url.slice(0,6).toLowerCase() != "wss://") {
+  if (url.slice(0,5).toLowerCase() != "ws://" && url.slice(0,6).toLowerCase() != "wss://") {
     url = "ws://" + url;
   }
 
@@ -34,8 +34,7 @@ var getParams = function(port, host, opts) {
     type: Uint8Array
   };
 
-  if(opts.protocol)
-  {
+  if (opts.protocol) {
     websocketOpts.protocol = opts.protocol;
   }
 
@@ -44,7 +43,6 @@ var getParams = function(port, host, opts) {
     opts: opts,
     websocketOpts: websocketOpts
   }
-
 };
 
 module.exports.createClient = function(port, host, opts) {

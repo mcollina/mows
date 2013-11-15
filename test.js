@@ -14,11 +14,10 @@ var mqttOverWs = require('./')
   , server = testServer.start()
   , secureServer = testServer.startSecure()
 
-var secureClientOpts =
-{
-    protocol: {
-        ca: testServer.ssl.cert
-    }
+var secureClientOpts = {
+  protocol: {
+    ca: testServer.ssl.cert
+  }
 };
 
 function clientTests(buildClient) {
