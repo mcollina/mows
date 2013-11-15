@@ -35,6 +35,8 @@
     "should": "~1.2.2"
   },
   "browser": {
+    "./index.js": "./client.js",
+    "./buildWebsocket.js": "./buildWebsocketBrowser.js",
     "./test-server.js": "./fake-server.js"
   },
   "testling": {

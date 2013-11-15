@@ -6,7 +6,7 @@ var fs   = require("fs");
 
 var port = module.exports.port = process.env.PORT || 9351;
 
-var securePort = module.exports.securePort = 9352;
+var securePort = module.exports.securePort = 9354;
 
 var handleClient = function (client) {
 
@@ -128,6 +128,14 @@ if (!module.parent) {
       console.error(err);
       return;
     }
-    console.log('MQTT.js-over-websocket server started on port ' + port);
+    console.log('MOWS server started on port ' + port);
+  });
+
+  module.exports.startSecure(function(err) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log('MOWS server started on port ' + securePort);
   });
 }

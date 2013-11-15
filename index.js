@@ -1,11 +1,10 @@
 var websocket = require('websocket-stream')
 var WebSocketServer = require('ws').Server;
 var mqtt = require("mqtt");
-var browser = require("./browser");
 var http = require("http");
 var https = require("https");
 
-module.exports = Object.create(browser);
+module.exports = Object.create(require("./client"));
 
 module.exports.attachServer = function(server, handler) {
   var wss = new WebSocketServer({server: server})
