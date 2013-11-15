@@ -1,6 +1,6 @@
 {
   "name": "mows",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Use MQTT from the Browser, based on MQTT.js and websocket-stream",
   "main": "index.js",
   "repository": {
