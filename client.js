@@ -11,7 +11,7 @@ module.exports.createClient = function(port, host, opts) {
   }
 
   var build = function() {
-    return websocket(params.url, params.websocketOpts);
+    return websocket(params.url, 'mqttv3.1', params.websocketOpts);
   };
 
   return new mqtt.MqttClient(build, params.opts);
