@@ -28,7 +28,7 @@
   "dependencies": {
     "mqtt": "~0.3.3",
     "websocket-stream": "~0.3.2",
-    "ws": "~0.4.30"
+    "ws": "~0.4.31"
   },
   "devDependencies": {
     "mocha": "~1.13.0",
