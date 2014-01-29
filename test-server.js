@@ -4,9 +4,9 @@ var mqtt = require("./");
 var http = require("http");
 var fs   = require("fs");
 
-var port = module.exports.port = process.env.PORT || 9351;
+var port = module.exports.port = process.env.PORT || 9371;
 
-var securePort = module.exports.securePort = 9354;
+var securePort = module.exports.securePort = 9374;
 
 var handleClient = function (client) {
 
@@ -129,13 +129,5 @@ if (!module.parent) {
       return;
     }
     console.log('MOWS server started on port ' + port);
-  });
-
-  module.exports.startSecure(function(err) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log('MOWS server started on port ' + securePort);
   });
 }

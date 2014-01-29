@@ -64,18 +64,19 @@ describe('MqttClient', function() {
     });
   });
 
-  describe("specifying a port, secure URL and secure client options", function(){
-    clientTests(function(){
-      return mqttOverWs.createClient(testServer.securePort, 'wss://localhost', secureClientOpts);
+  if (process.title === 'node') {
+    describe("specifying a port, secure URL and secure client options", function(){
+      clientTests(function(){
+        return mqttOverWs.createClient(testServer.securePort, 'wss://localhost', secureClientOpts);
+      });
     });
-  });
 
-  describe("specifying a URL and secure client options", function(){
-    clientTests(function(){
-      return mqttOverWs.createClient('wss://localhost:' + testServer.securePort, secureClientOpts);
+    describe("specifying a URL and secure client options", function(){
+      clientTests(function(){
+        return mqttOverWs.createClient('wss://localhost:' + testServer.securePort, secureClientOpts);
+      });
     });
-  });
-
+  }
 });
 
 
@@ -150,24 +151,25 @@ describe('MqttConnection', function() {
     });
   });
 
-  describe("specifying a port and secure URL", function() {
-    connectionTests(function() {
-      return mqttOverWs.createConnection(testServer.securePort, 'wss://localhost');
+  if (process.title === 'node') {
+    describe("specifying a port and secure URL", function() {
+      connectionTests(function() {
+        return mqttOverWs.createConnection(testServer.securePort, 'wss://localhost');
+      });
     });
-  });
 
-  describe("specifying a port, secure URL and secure Client options", function() {
-    connectionTests(function() {
-      return mqttOverWs.createConnection(testServer.securePort, 'wss://localhost', secureClientOpts);
+    describe("specifying a port, secure URL and secure Client options", function() {
+      connectionTests(function() {
+        return mqttOverWs.createConnection(testServer.securePort, 'wss://localhost', secureClientOpts);
+      });
     });
-  });
 
-  describe("specifying a secure URL", function() {
-    connectionTests(function() {
-      return mqttOverWs.createConnection('wss://localhost:' + testServer.securePort);
+    describe("specifying a secure URL", function() {
+      connectionTests(function() {
+        return mqttOverWs.createConnection('wss://localhost:' + testServer.securePort);
+      });
     });
-  });
-
+  }
 });
 
 describe('mqttOverWs', function() {
