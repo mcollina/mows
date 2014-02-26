@@ -16,7 +16,7 @@ you can use [browserify](http://github.com/substack/node-browserify) to package 
 
 ```javascript
 var mows   = require('mows')
-  , client = mqtt.createClient();
+  , client = mows.createClient();
   // pass an optional 'ws://localhost:port' here.
 
 client.subscribe('presence');
