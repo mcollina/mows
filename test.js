@@ -64,6 +64,14 @@ describe('MqttClient', function() {
     });
   });
 
+  if (process.title === 'browser') {
+    describe("specifying nothing", function() {
+      clientTests(function() {
+        return mqttOverWs.createClient();
+      });
+    });
+  }
+
   if (process.title === 'node') {
     describe("specifying a port, secure URL and secure client options", function(){
       clientTests(function(){

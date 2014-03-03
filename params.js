@@ -1,31 +1,47 @@
+var URL = require('url');
 
 module.exports = function getParams(port, host, opts) {
 
-  var url = null;
+  var url = {};
+  var parsed = null;
+  var result = '';
 
   if ('object' === typeof port) {
     opts = port;
-    url = 'localhost';
+    host = null;
+    port = null;
   } else if ('string' === typeof port) {
-    url = port;
+    host = port;
+    port = null;
+    opts = host;
   }
 
   if ('object' === typeof host) {
     opts = host;
-  } else if ('object' !== typeof opts) {
+    host = null;
+  }
+
+  if (!host && !port && process.title === 'browser') {
+    host = document.URL;
+  }
+
+  url.host = host || 'localhost';
+  url.port = port;
+  url.protocol = 'ws://';
+
+  try{
+    parsed = URL.parse(host);
+    if (parsed.host) {
+      url.host = parsed.hostname;
+      url.port = parsed.port || port;
+      url.protocol = (parsed.protocol === 'https:') ? 'wss://' : 'ws://';
+      url.protocol = (parsed.protocol === 'wss:') ? 'wss://' : 'ws://';
+    }
+  } catch(e) {
+  }
+
+  if ('object' !== typeof opts) {
     opts = {};
-  }
-
-  if (!host) {
-    host = 'localhost'
-  }
-
-  if (!url && host && port) {
-    url = host + ':' + port;
-  }
-
-  if (url.slice(0,5).toLowerCase() != "ws://" && url.slice(0,6).toLowerCase() != "wss://") {
-    url = "ws://" + url;
   }
 
   var websocketOpts = {
@@ -36,8 +52,14 @@ module.exports = function getParams(port, host, opts) {
     websocketOpts.protocol = opts.protocol;
   }
 
+  result = url.protocol + url.host
+
+  if (url.port) {
+    result += ':' + url.port
+  }
+
   return {
-    url: url,
+    url: result,
     opts: opts,
     websocketOpts: websocketOpts
   }
