@@ -34,6 +34,7 @@ module.exports = function getParams(port, host, opts) {
     if (parsed.host) {
       url.host = parsed.hostname;
       url.port = parsed.port || port;
+      url.pathname = parsed.pathname;
       url.protocol = (parsed.protocol === 'https:') ? 'wss://' : 'ws://';
       url.protocol = (parsed.protocol === 'wss:') ? 'wss://' : 'ws://';
     }
@@ -56,6 +57,10 @@ module.exports = function getParams(port, host, opts) {
 
   if (url.port) {
     result += ':' + url.port
+  }
+
+  if (url.pathname) {
+     result += url.pathname
   }
 
   return {
