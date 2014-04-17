@@ -5,6 +5,7 @@ module.exports = function getParams(port, host, opts) {
   var url = {};
   var parsed = null;
   var result = '';
+  var same = false;
 
   if ('object' === typeof port) {
     opts = port;
@@ -23,6 +24,7 @@ module.exports = function getParams(port, host, opts) {
 
   if (!host && !port && process.title === 'browser') {
     host = document.URL;
+    same = true;
   }
 
   url.host = host || 'localhost';
@@ -34,7 +36,7 @@ module.exports = function getParams(port, host, opts) {
     if (parsed.host) {
       url.host = parsed.hostname;
       url.port = parsed.port || port;
-      url.pathname = parsed.pathname;
+      url.pathname = !same && parsed.pathname || '/mqtt';
       url.protocol = (parsed.protocol === 'https:') ? 'wss://' : 'ws://';
       url.protocol = (parsed.protocol === 'wss:') ? 'wss://' : 'ws://';
     }
