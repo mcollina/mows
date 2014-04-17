@@ -26,8 +26,8 @@
   "author": "Matteo Collina <hello@matteocollina.com>",
   "license": "MIT",
   "dependencies": {
-    "mqtt": "~0.3.3",
-    "websocket-stream": "~0.3.2",
+    "mqtt": "~0.3.8",
+    "websocket-stream": "~0.5.1",
     "ws": "~0.4.31"
   },
   "devDependencies": {

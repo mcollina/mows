@@ -28,7 +28,7 @@ function clientTests(buildClient) {
   });
 
   afterEach(function(done) {
-    client.on("close", done);
+    client.once("close", done);
     client.end();
   });
 
