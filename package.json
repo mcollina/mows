@@ -1,6 +1,6 @@
 {
   "name": "mows",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Use MQTT from the Browser, based on MQTT.js and websocket-stream",
   "main": "index.js",
   "repository": {
@@ -26,13 +26,14 @@
   "author": "Matteo Collina <hello@matteocollina.com>",
   "license": "MIT",
   "dependencies": {
-    "mqtt": "adamvr/MQTT.js#no-bops",
+    "mqtt": "~0.3.10",
     "websocket-stream": "~0.5.1",
     "ws": "~0.4.31"
   },
   "devDependencies": {
     "mocha": "~1.13.0",
-    "should": "~1.2.2"
+    "should": "~1.2.2",
+    "sinon": "^1.10.2"
   },
   "browser": {
     "./index.js": "./client.js",
