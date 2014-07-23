@@ -31,13 +31,13 @@ client.on('message', function (topic, message) {
 See [MQTT.js](http://npm.im/mqtt) for the full API.
 
 ### browserify steps
+
 ```javascript
 npm install -g browserify // install browserify
 cd node_modules/mows
 npm install . // install dev dependencies
 browserify . -s mows > mows.js // require mows.js in your client-side app
 ```
-Note: mows currently relies on Browserify 3.x
 
 ## On Node
 
