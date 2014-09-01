@@ -12,9 +12,9 @@ module.exports = function getParams(port, host, opts) {
     host = null;
     port = null;
   } else if ('string' === typeof port) {
+    opts = host;
     host = port;
     port = null;
-    opts = host;
   }
 
   if ('object' === typeof host) {

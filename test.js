@@ -12,6 +12,7 @@ var mqttOverWs = require('./')
   , abstractClientTests = require("mqtt/test/abstract_client")
   , testServer = require("./test-server")
   , server = testServer.start()
+  , authServer = testServer.startAuth()
   , secureServer = testServer.startSecure()
 
 var secureClientOpts = {
@@ -61,6 +62,15 @@ describe('MqttClient', function() {
   describe("specifying a URL", function() {
     clientTests(function() {
       return mqttOverWs.createClient('ws://localhost:' + testServer.port);
+    });
+  });
+
+  describe("specifying a URL with authentication", function() {
+    clientTests(function() {
+      return mqttOverWs.createClient('ws://localhost:' + testServer.authPort, {
+        username: 'test-user',
+        password: 'p@ssword'
+      });
     });
   });
 
