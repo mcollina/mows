@@ -12,7 +12,6 @@ var mqttOverWs = require('./')
   , abstractClientTests = require("mqtt/test/abstract_client")
   , testServer = require("./test-server")
   , server = testServer.start()
-  , authServer = testServer.startAuth()
   , secureServer = testServer.startSecure()
 
 var secureClientOpts = {
@@ -65,15 +64,6 @@ describe('MqttClient', function() {
     });
   });
 
-  describe("specifying a URL with authentication", function() {
-    clientTests(function() {
-      return mqttOverWs.createClient('ws://localhost:' + testServer.authPort, {
-        username: 'test-user',
-        password: 'p@ssword'
-      });
-    });
-  });
-
   if (process.title === 'browser') {
     describe("specifying nothing", function() {
       clientTests(function() {
@@ -86,6 +76,16 @@ describe('MqttClient', function() {
     describe("specifying a port, secure URL and secure client options", function(){
       clientTests(function(){
         return mqttOverWs.createClient(testServer.securePort, 'wss://localhost', secureClientOpts);
+      });
+    });
+
+    describe("specifying a URL with authentication", function() {
+      var authServer = testServer.startAuth();
+      clientTests(function() {
+        return mqttOverWs.createClient('ws://localhost:' + testServer.authPort, {
+          username: 'test-user',
+          password: 'p@ssword'
+        });
       });
     });
 
