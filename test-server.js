@@ -6,6 +6,7 @@ var fs   = require("fs");
 
 var port = module.exports.port = process.env.PORT || 9371;
 
+var authPort = module.exports.authPort = 9372;
 var securePort = module.exports.securePort = 9374;
 
 var handleClient = function (client) {
@@ -94,6 +95,30 @@ var handleClient = function (client) {
   });
 };
 
+var handleAuthClient = function (client) {
+  client.on('connect', function(packet) {
+    if(packet.username === 'test-user' && packet.password === 'p@ssword'){
+        client.connack({returnCode: 0});
+    }else{
+        client.connack({returnCode: 4});
+    }
+  });
+
+  client.on('subscribe', function(packet) {
+    var granted = [];
+
+    for (var i = 0; i < packet.subscriptions.length; i++) {
+        var qos = packet.subscriptions[i].qos
+            , topic = packet.subscriptions[i].topic
+            , reg = new RegExp(topic.replace('+', '[^\/]+').replace('#', '.+') + '$');
+
+        granted.push(qos);
+    }
+
+    client.suback({messageId: packet.messageId, granted: granted});
+  });
+};
+
 module.exports.ssl = {
   key:  fs.readFileSync('./examples/cert/94456535-localhost.key'),
   cert: fs.readFileSync('./examples/cert/94456535-localhost.cert')
@@ -104,6 +129,14 @@ module.exports.start = function(done) {
   var server = mqtt.createServer(handleClient);
 
   server.listen(port, done);
+
+  return server;
+};
+
+module.exports.startAuth = function(done) {
+
+  var server = mqtt.createServer(handleAuthClient);
+  server.listen(authPort, done);
 
   return server;
 };

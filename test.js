@@ -79,6 +79,16 @@ describe('MqttClient', function() {
       });
     });
 
+    describe("specifying a URL with authentication", function() {
+      var authServer = testServer.startAuth();
+      clientTests(function() {
+        return mqttOverWs.createClient('ws://localhost:' + testServer.authPort, {
+          username: 'test-user',
+          password: 'p@ssword'
+        });
+      });
+    });
+
     describe("specifying a URL and secure client options", function(){
       clientTests(function(){
         return mqttOverWs.createClient('wss://localhost:' + testServer.securePort, secureClientOpts);
