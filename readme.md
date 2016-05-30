@@ -2,6 +2,8 @@
 
     npm install mows --save
 
+This project is deprecated, as it merged with [MQTT.js](https://github.com/mqttjs/MQTT.js) since version 1.0.0
+
 Tunnel [MQTT](http://mqtt.org) through HTML5
 [websockets](https://developer.mozilla.org/en-US/docs/WebSockets) using
 node.js Streams, thanks to
